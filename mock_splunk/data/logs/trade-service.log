@@ -1,0 +1,10 @@
+2026-03-28T10:15:32.300+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.trade.TradeService : START txnId=TXN-100 endpoint=/api/trade/execute
+
+2026-03-28T10:15:32.500+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.trade.TradeService : Calling auth-service txnId=TXN-100 downstream=auth-service
+
+2026-03-28T10:15:32.800+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.trade.TradeService : Trade success txnId=TXN-100 status=200
+
+
+2026-03-28T11:00:01.000+05:30 ERROR 19152 --- [nio-8080-exec-5] c.m.trade.TradeService : Trade execution failed txnId=TXN-200 endpoint=/api/trade/execute status=500
+java.net.SocketTimeoutException: connection timed out
+	at com.ms.trade.client.HttpClient.execute(HttpClient.java:200)

@@ -1,0 +1,25 @@
+2026-03-28T10:15:32.123+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentController : START txnId=TXN-100 endpoint=/api/payments/process method=POST userId=USR-101
+
+2026-03-28T10:15:32.200+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Calling trade-service txnId=TXN-100 downstream=trade-service
+
+2026-03-28T10:15:33.001+05:30 ERROR 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Payment failed txnId=TXN-100 endpoint=/api/payments/process status=500
+java.lang.NullPointerException: account is null
+	at com.ms.payment.PaymentService.process(PaymentService.java:142)
+
+2026-03-28T10:15:33.500+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentController : END txnId=TXN-100 status=500 responseTime=2341ms
+
+
+2026-03-28T11:00:00.100+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentController : START txnId=TXN-200 endpoint=/api/payments/process method=POST
+
+2026-03-28T11:00:00.200+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentService : Calling trade-service txnId=TXN-200 downstream=trade-service
+
+2026-03-28T11:00:02.000+05:30 ERROR 19152 --- [nio-8080-exec-2] c.m.payment.PaymentService : Timeout calling trade-service txnId=TXN-200 endpoint=/api/payments/process status=500
+
+2026-03-28T11:00:02.500+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentController : END txnId=TXN-200 status=500 responseTime=3000ms
+
+
+2026-03-28T12:10:10.100+05:30 INFO 19152 --- [nio-8080-exec-3] c.m.payment.PaymentController : START txnId=TXN-300 endpoint=/api/payments/refund method=POST
+
+2026-03-28T12:10:10.300+05:30 ERROR 19152 --- [nio-8080-exec-3] c.m.payment.PaymentService : Invalid refund request txnId=TXN-300 endpoint=/api/payments/refund status=400
+
+2026-03-28T12:10:10.800+05:30 INFO 19152 --- [nio-8080-exec-3] c.m.payment.PaymentController : END txnId=TXN-300 status=400 responseTime=500ms
