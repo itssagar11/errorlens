@@ -1,0 +1,23 @@
+<td class="px-6 py-4">
+  <span class="font-mono text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+    {{ row.api }}
+  </span>
+</td>
+<td class="px-6 py-4 font-semibold text-gray-800">{{ row.total_errors }}</td>
+<td class="px-6 py-4">
+  <div class="flex items-center gap-2">
+    <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+      <div class="bg-red-400 h-2 rounded-full" [style.width.%]="impactWidth"></div>
+    </div>
+    <span class="text-xs text-gray-500 min-w-fit">{{ impactWidth }}%</span>
+  </div>
+</td>
+<td class="px-6 py-4">
+  <div class="flex flex-wrap gap-1.5">
+    @for (error of row.error_breakdown; track error.status_code) {
+      <span class="bg-red-50 text-red-700 text-xs font-medium px-2.5 py-1 rounded-md">
+        {{ error.status_code }} · {{ error.count }}
+      </span>
+    }
+  </div>
+</td>

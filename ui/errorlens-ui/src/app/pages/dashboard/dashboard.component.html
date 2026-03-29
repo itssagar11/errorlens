@@ -1,3 +1,20 @@
-<div>
-    <app-search-bar></app-search-bar>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ErrorLens Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen p-8 font-sans">
+
+  <div class="mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Error<span class="text-red-500">Lens</span></h1>
+    <p class="text-gray-500 text-sm mt-1">AI-powered error triage platform</p>
+  </div>
+
+  <app-search-bar (analysisComplete)="onAnalysisComplete($event)"></app-search-bar>
+  <app-error-lens [errorLogs]="errorLogs"></app-error-lens>
+
+</body>
+</html>

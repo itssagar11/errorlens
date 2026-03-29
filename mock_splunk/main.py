@@ -139,13 +139,83 @@ SERVICE_HEALTH = load_health()
 # ─────────────────────────────────────────
 # ROOT
 # ─────────────────────────────────────────
-@app.get("/")
+@app.get("/get/services")
 def root():
     return {
         "services": list(set(l["service"] for l in ALL_LOGS)),
         "total_logs": len(ALL_LOGS)
     }
 
+@app.get("/splunk/error")
+def dashboard(
+    service: str,
+    start_time: str = Query(..., description="ISO timestamp e.g. 2026-03-25T00:00:00+05:30"),
+    end_time: str = Query(..., description="ISO timestamp e.g. 2026-03-28T23:59:59+05:30")
+):
+    """
+    Returns all APIs for a service in a date range.
+    Each API has a breakdown of error codes and their counts.
+    
+    Response:
+    [
+        {
+            "api": "/api/payments/process",
+            "total_errors": 10,
+            "error_breakdown": [
+                { "status_code": 500, "count": 7 },
+                { "status_code": 400, "count": 3 }
+            ]
+        }
+    ]
+    """
+    start_dt = date_parser.parse(start_time)
+    end_dt = date_parser.parse(end_time)
+
+    # Filter by service and date range
+    logs = [
+        l for l in ALL_LOGS
+        if l["service"] == service
+        and start_dt <= date_parser.parse(l["timestamp"]) <= end_dt
+    ]
+
+    # Group by endpoint → status_code → count
+    agg = {}
+
+    for l in logs:
+        endpoint = l.get("endpoint") or "UNKNOWN"
+        status = l.get("status_code") or "NA"
+
+        if endpoint not in agg:
+            agg[endpoint] = {}
+
+        if status not in agg[endpoint]:
+            agg[endpoint][status] = 0
+
+        agg[endpoint][status] += 1
+
+    # Format response
+    result = []
+    for endpoint, status_counts in agg.items():
+        result.append({
+            "api": endpoint,
+            "total_errors": sum(status_counts.values()),
+            "error_breakdown": [
+                {"status_code": code, "count": count}
+                for code, count in sorted(status_counts.items())
+            ]
+        })
+
+    # Sort by total errors descending
+    result.sort(key=lambda x: x["total_errors"], reverse=True)
+
+    return {
+        "service": service,
+        "start_time": start_time,
+        "end_time": end_time,
+        "total_apis_affected": len(result),
+        "total_errors": sum(r["total_errors"] for r in result),
+        "data": result
+    }
 
 # ─────────────────────────────────────────
 # 🔥 AGGREGATION (SERVICE → APIs)
