@@ -1,0 +1,86 @@
+<div class="min-h-screen bg-gray-50 p-8">
+  <div class="mb-8 flex items-start justify-between gap-4">
+    <div>
+      <a routerLink="/" class="text-sm text-red-600 hover:text-red-700">Back to dashboard</a>
+      <h1 class="mt-2 text-3xl font-bold text-gray-900">Status Drilldown</h1>
+      <p class="mt-1 text-sm text-gray-500">
+        {{ service }} | {{ endpoint }} | Status {{ statusCode ?? 'All' }}
+      </p>
+    </div>
+  </div>
+
+  <div class="grid gap-6 lg:grid-cols-[380px,1fr]">
+    <section class="rounded-xl border border-gray-200 bg-white">
+      <div class="border-b border-gray-100 px-5 py-4">
+        <h2 class="text-sm font-semibold text-gray-700">Exception Unique IDs</h2>
+        <p class="mt-1 text-xs text-gray-400">Click a transaction ID to load all logs for that flow.</p>
+      </div>
+
+      @if (isLoadingDetails) {
+        <div class="p-5 text-sm text-gray-500">Loading transaction IDs...</div>
+      } @else if (detailsError) {
+        <div class="p-5 text-sm text-red-600">{{ detailsError }}</div>
+      } @else if (details?.transactions?.length) {
+        <div class="max-h-[70vh] overflow-auto divide-y divide-gray-100">
+          @for (txn of details!.transactions; track txn.txn_id) {
+            <button
+              type="button"
+              class="block w-full px-5 py-4 text-left transition hover:bg-gray-50"
+              [class.bg-red-50]="selectedTxnId === txn.txn_id"
+              (click)="selectTxn(txn.txn_id)"
+            >
+              <div class="flex items-center justify-between gap-3">
+                <p class="font-mono text-xs font-semibold text-gray-800">{{ txn.txn_id }}</p>
+                <span class="rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700">
+                  {{ txn.status_code ?? 'NA' }}
+                </span>
+              </div>
+              <p class="mt-2 text-xs text-gray-500">{{ txn.timestamp }}</p>
+              <p class="mt-1 text-sm text-gray-600">{{ txn.error || 'Unknown exception' }}</p>
+            </button>
+          }
+        </div>
+      } @else {
+        <div class="p-5 text-sm text-gray-500">No transaction IDs found for this status breakdown.</div>
+      }
+    </section>
+
+    <section class="rounded-xl border border-gray-200 bg-white">
+      <div class="border-b border-gray-100 px-5 py-4">
+        <h2 class="text-sm font-semibold text-gray-700">Raw Logs</h2>
+        <p class="mt-1 text-xs text-gray-400">
+          @if (selectedTxnId) {
+            Showing all logs related to {{ selectedTxnId }}
+          } @else {
+            Select a unique ID from the left panel.
+          }
+        </p>
+      </div>
+
+      @if (isLoadingTrace) {
+        <div class="p-5 text-sm text-gray-500">Loading raw logs...</div>
+      } @else if (traceError) {
+        <div class="p-5 text-sm text-red-600">{{ traceError }}</div>
+      } @else if (trace?.raw_logs?.length) {
+        <div class="space-y-4 p-5">
+          @for (group of trace!.raw_logs; track group.service) {
+            <div class="overflow-hidden rounded-lg border border-gray-200">
+              <div class="border-b border-gray-100 bg-gray-50 px-4 py-3">
+                <p class="text-sm font-semibold text-gray-700">{{ group.service }}</p>
+              </div>
+              <div class="overflow-x-auto bg-gray-950 p-4 text-xs leading-6 text-gray-100 font-mono">
+                @for (line of group.logs; track $index) {
+                  <div>{{ line }}</div>
+                } @empty {
+                  <div>No logs found.</div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="p-5 text-sm text-gray-500">No raw logs loaded yet.</div>
+      }
+    </section>
+  </div>
+</div>

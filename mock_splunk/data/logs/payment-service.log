@@ -1,25 +1,71 @@
-2026-03-28T10:15:32.123+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentController : START txnId=TXN-100 endpoint=/api/payments/process method=POST userId=USR-101
+2026-03-25T09:00:11.101+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentController : START txnId=TXN-100 endpoint=/api/payments/process method=POST userId=USR-101 amount=1250.00 currency=INR
+2026-03-25T09:00:11.142+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Validating request txnId=TXN-100 endpoint=/api/payments/process
+2026-03-25T09:00:11.201+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Calling auth-service txnId=TXN-100 downstream=auth-service
+2026-03-25T09:00:11.380+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Calling trade-service txnId=TXN-100 downstream=trade-service
+2026-03-25T09:00:11.842+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentController : END txnId=TXN-100 status=200 responseTime=741ms
 
-2026-03-28T10:15:32.200+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Calling trade-service txnId=TXN-100 downstream=trade-service
+2026-03-25T09:15:22.901+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentController : START txnId=TXN-110 endpoint=/api/payments/process method=POST userId=USR-102 amount=875.00 currency=INR
+2026-03-25T09:15:22.960+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentService : Calling ledger-service txnId=TXN-110 downstream=ledger-service
+2026-03-25T09:15:23.401+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentController : END txnId=TXN-110 status=200 responseTime=500ms
 
-2026-03-28T10:15:33.001+05:30 ERROR 19152 --- [nio-8080-exec-1] c.m.payment.PaymentService : Payment failed txnId=TXN-100 endpoint=/api/payments/process status=500
-java.lang.NullPointerException: account is null
-	at com.ms.payment.PaymentService.process(PaymentService.java:142)
+2026-03-26T08:45:09.111+05:30 INFO 19152 --- [nio-8080-exec-3] c.m.payment.RefundController : START txnId=TXN-300 endpoint=/api/payments/refund method=POST userId=USR-303 amount=90.00 currency=INR
+2026-03-26T08:45:09.209+05:30 WARN 19152 --- [nio-8080-exec-3] c.m.payment.RefundValidator : Invalid refund request txnId=TXN-300 endpoint=/api/payments/refund status=400
+com.ms.payment.exception.InvalidRefundRequestException: refund amount exceeds settled amount
+	at com.ms.payment.validation.RefundValidator.validate(RefundValidator.java:58)
+2026-03-26T08:45:09.388+05:30 INFO 19152 --- [nio-8080-exec-3] c.m.payment.RefundController : END txnId=TXN-300 status=400 responseTime=277ms
 
-2026-03-28T10:15:33.500+05:30 INFO 19152 --- [nio-8080-exec-1] c.m.payment.PaymentController : END txnId=TXN-100 status=500 responseTime=2341ms
+2026-03-26T09:14:40.100+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.payment.PaymentController : START txnId=TXN-610 endpoint=/api/payments/process method=POST userId=USR-410 amount=1575.00 currency=INR
+2026-03-26T09:14:40.145+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.payment.PaymentService : Persisting authorization txnId=TXN-610 endpoint=/api/payments/process
+2026-03-26T09:14:40.390+05:30 ERROR 19152 --- [nio-8080-exec-4] c.m.payment.PaymentRepository : Database deadlock while saving payment txnId=TXN-610 endpoint=/api/payments/process status=500
+org.springframework.dao.DeadlockLoserDataAccessException: deadlock detected while updating payment_state
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.convertHibernateAccessException(HibernateJpaDialect.java:321)
+	at org.springframework.orm.jpa.vendor.HibernateJpaDialect.translateExceptionIfPossible(HibernateJpaDialect.java:233)
+	at com.ms.payment.repository.PaymentRepository.save(PaymentRepository.java:118)
+2026-03-26T09:14:40.602+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.payment.PaymentController : END txnId=TXN-610 status=500 responseTime=502ms
 
+2026-03-27T18:10:12.220+05:30 INFO 19152 --- [nio-8080-exec-5] c.m.payment.PaymentController : START txnId=TXN-810 endpoint=/api/payments/process method=POST userId=USR-999 amount=240.00 currency=INR
+2026-03-27T18:10:12.300+05:30 INFO 19152 --- [nio-8080-exec-5] c.m.payment.PaymentService : Calling user-profile-service txnId=TXN-810 downstream=user-profile-service
+2026-03-27T18:10:12.581+05:30 WARN 19152 --- [nio-8080-exec-5] c.m.payment.PaymentService : User profile missing for payment initiation txnId=TXN-810 endpoint=/api/payments/process status=404
+com.ms.payment.exception.CustomerProfileNotFoundException: profile not present for user USR-999
+	at com.ms.payment.profile.ProfileGateway.fetch(ProfileGateway.java:72)
+2026-03-27T18:10:12.744+05:30 INFO 19152 --- [nio-8080-exec-5] c.m.payment.PaymentController : END txnId=TXN-810 status=404 responseTime=524ms
 
-2026-03-28T11:00:00.100+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentController : START txnId=TXN-200 endpoint=/api/payments/process method=POST
+2026-03-28T10:15:32.123+05:30 INFO 19152 --- [nio-8080-exec-6] c.m.payment.PaymentController : START txnId=TXN-200 endpoint=/api/payments/process method=POST userId=USR-201 amount=1820.00 currency=INR
+2026-03-28T10:15:32.200+05:30 INFO 19152 --- [nio-8080-exec-6] c.m.payment.PaymentService : Calling trade-service txnId=TXN-200 downstream=trade-service
+2026-03-28T10:15:33.001+05:30 ERROR 19152 --- [nio-8080-exec-6] c.m.payment.PaymentService : Timeout calling trade-service txnId=TXN-200 endpoint=/api/payments/process status=500
+java.net.SocketTimeoutException: read timed out
+	at com.ms.payment.client.TradeClient.execute(TradeClient.java:219)
+2026-03-28T10:15:33.500+05:30 INFO 19152 --- [nio-8080-exec-6] c.m.payment.PaymentController : END txnId=TXN-200 status=500 responseTime=1377ms
 
-2026-03-28T11:00:00.200+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentService : Calling trade-service txnId=TXN-200 downstream=trade-service
+2026-03-28T10:32:08.712+05:30 INFO 19152 --- [nio-8080-exec-7] c.m.payment.PaymentController : START txnId=TXN-410 endpoint=/api/payments/process method=POST userId=USR-410 amount=1575.00 currency=INR
+2026-03-28T10:32:08.774+05:30 WARN 19152 --- [nio-8080-exec-7] c.m.payment.IdempotencyService : Duplicate payment request detected txnId=TXN-410 endpoint=/api/payments/process status=409
+java.lang.IllegalStateException: duplicate idempotency key KEY-410 already consumed
+	at com.ms.payment.idempotency.IdempotencyService.assertNewRequest(IdempotencyService.java:44)
+2026-03-28T10:32:08.940+05:30 INFO 19152 --- [nio-8080-exec-7] c.m.payment.PaymentController : END txnId=TXN-410 status=409 responseTime=228ms
 
-2026-03-28T11:00:02.000+05:30 ERROR 19152 --- [nio-8080-exec-2] c.m.payment.PaymentService : Timeout calling trade-service txnId=TXN-200 endpoint=/api/payments/process status=500
+2026-03-28T11:40:55.050+05:30 INFO 19152 --- [nio-8080-exec-8] c.m.payment.PaymentController : START txnId=TXN-510 endpoint=/api/payments/process method=POST userId=USR-510 amount=4200.00 currency=INR
+2026-03-28T11:40:55.102+05:30 INFO 19152 --- [nio-8080-exec-8] c.m.payment.PaymentService : Calling ledger-service txnId=TXN-510 downstream=ledger-service
+2026-03-28T11:40:55.441+05:30 WARN 19152 --- [nio-8080-exec-8] c.m.payment.PaymentService : Balance check failed txnId=TXN-510 endpoint=/api/payments/process status=422
+com.ms.payment.exception.InsufficientFundsException: available balance 3100.00 is less than debit amount 4200.00
+	at com.ms.payment.rules.BalanceRule.evaluate(BalanceRule.java:91)
+	at com.ms.payment.PaymentService.authorize(PaymentService.java:208)
+2026-03-28T11:40:55.620+05:30 INFO 19152 --- [nio-8080-exec-8] c.m.payment.PaymentController : END txnId=TXN-510 status=422 responseTime=570ms
 
-2026-03-28T11:00:02.500+05:30 INFO 19152 --- [nio-8080-exec-2] c.m.payment.PaymentController : END txnId=TXN-200 status=500 responseTime=3000ms
+2026-03-28T12:21:10.501+05:30 INFO 19152 --- [nio-8080-exec-9] c.m.payment.RefundController : START txnId=TXN-320 endpoint=/api/payments/refund method=POST userId=USR-320 amount=250.00 currency=INR
+2026-03-28T12:21:10.610+05:30 INFO 19152 --- [nio-8080-exec-9] c.m.payment.RefundService : Refund accepted txnId=TXN-320 endpoint=/api/payments/refund
+2026-03-28T12:21:10.921+05:30 INFO 19152 --- [nio-8080-exec-9] c.m.payment.RefundController : END txnId=TXN-320 status=200 responseTime=420ms
 
+2026-03-28T13:05:44.030+05:30 INFO 19152 --- [nio-8080-exec-10] c.m.payment.PaymentController : START txnId=TXN-710 endpoint=/api/payments/process method=POST userId=USR-710 amount=1099.00 currency=INR
+2026-03-28T13:05:44.111+05:30 INFO 19152 --- [nio-8080-exec-10] c.m.payment.PaymentService : Calling notification-service txnId=TXN-710 downstream=notification-service
+2026-03-28T13:05:44.492+05:30 ERROR 19152 --- [nio-8080-exec-10] c.m.payment.NotificationBridge : Notification publish failed txnId=TXN-710 endpoint=/api/payments/process status=503
+org.apache.kafka.common.errors.TimeoutException: topic payment-events not present in metadata after 60000 ms
+	at org.apache.kafka.clients.NetworkClientUtils.awaitReady(NetworkClientUtils.java:90)
+	at com.ms.payment.notification.NotificationBridge.publish(NotificationBridge.java:57)
+2026-03-28T13:05:44.820+05:30 INFO 19152 --- [nio-8080-exec-10] c.m.payment.PaymentController : END txnId=TXN-710 status=503 responseTime=790ms
 
-2026-03-28T12:10:10.100+05:30 INFO 19152 --- [nio-8080-exec-3] c.m.payment.PaymentController : START txnId=TXN-300 endpoint=/api/payments/refund method=POST
-
-2026-03-28T12:10:10.300+05:30 ERROR 19152 --- [nio-8080-exec-3] c.m.payment.PaymentService : Invalid refund request txnId=TXN-300 endpoint=/api/payments/refund status=400
-
-2026-03-28T12:10:10.800+05:30 INFO 19152 --- [nio-8080-exec-3] c.m.payment.PaymentController : END txnId=TXN-300 status=400 responseTime=500ms
+2026-03-28T14:18:31.207+05:30 INFO 19152 --- [nio-8080-exec-11] c.m.payment.PaymentController : START txnId=TXN-900 endpoint=/api/payments/process method=POST userId=USR-900 amount=9999.00 currency=INR
+2026-03-28T14:18:31.300+05:30 INFO 19152 --- [nio-8080-exec-11] c.m.payment.PaymentService : Calling bank-gateway txnId=TXN-900 downstream=trade-service
+2026-03-28T14:18:32.014+05:30 ERROR 19152 --- [nio-8080-exec-11] c.m.payment.PaymentService : Gateway timeout during authorization txnId=TXN-900 endpoint=/api/payments/process status=504
+java.util.concurrent.TimeoutException: upstream bank gateway did not respond within SLA
+	at com.ms.payment.gateway.BankGatewayClient.authorize(BankGatewayClient.java:133)
+2026-03-28T14:18:32.230+05:30 INFO 19152 --- [nio-8080-exec-11] c.m.payment.PaymentController : END txnId=TXN-900 status=504 responseTime=1023ms

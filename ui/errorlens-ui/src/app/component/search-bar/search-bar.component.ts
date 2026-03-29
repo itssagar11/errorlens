@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SplunkService } from '../../services/splunk.service';
@@ -12,6 +12,7 @@ import { ErrorLogsResponse } from '../../model/error-logs.model';
   styleUrl: './search-bar.component.css'
 })
 export class SearchBarComponent implements OnInit {
+  @Output() analysisComplete = new EventEmitter<ErrorLogsResponse>();
 
   services: string[]
   selectedService: string = '';
@@ -67,8 +68,9 @@ export class SearchBarComponent implements OnInit {
     let endTime = new Date().toISOString();
     console.log('Calculated End Time:', endTime);
     this.splunkService.getErrorLogs(this.selectedService, startTime, endTime).subscribe({
-      next: (data: ErrorLogsResponse  ) => {
+      next: (data: ErrorLogsResponse) => {
         console.log('Error logs fetched successfully:', data);
+        this.analysisComplete.emit(data);
       },
       error: (err: any) => {
         console.error('Error fetching error logs:', err);

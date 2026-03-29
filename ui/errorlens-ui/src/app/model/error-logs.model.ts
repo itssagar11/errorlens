@@ -17,3 +17,25 @@ export interface ErrorLogsResponse {
   total_errors: number;
   data: ApiErrorData[];
 }
+
+export interface ErrorTransaction {
+  txn_id: string;
+  timestamp: string;
+  error: string | null;
+  status_code: number | null;
+}
+
+export interface ErrorDetailsResponse {
+  count: number;
+  transactions: ErrorTransaction[];
+}
+
+export interface RawTraceGroup {
+  service: string;
+  logs: string[];
+}
+
+export interface RawTraceResponse {
+  txn_id: string;
+  raw_logs: RawTraceGroup[];
+}

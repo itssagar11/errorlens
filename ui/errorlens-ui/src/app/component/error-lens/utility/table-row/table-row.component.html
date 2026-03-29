@@ -15,9 +15,13 @@
 <td class="px-6 py-4">
   <div class="flex flex-wrap gap-1.5">
     @for (error of row.error_breakdown; track error.status_code) {
-      <span class="bg-red-50 text-red-700 text-xs font-medium px-2.5 py-1 rounded-md">
+      <button
+        type="button"
+        class="bg-red-50 hover:bg-red-100 text-red-700 text-xs font-medium px-2.5 py-1 rounded-md transition"
+        (click)="openStatusDetails(error)"
+      >
         {{ error.status_code }} · {{ error.count }}
-      </span>
+      </button>
     }
   </div>
 </td>

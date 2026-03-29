@@ -37,6 +37,17 @@ BASE_DIR = os.path.dirname(__file__)
 LOGS_DIR = os.path.join(BASE_DIR, "data", "logs")
 HEALTH_FILE = os.path.join(BASE_DIR, "data", "service_health.json")
 
+
+def list_services():
+    if not os.path.exists(LOGS_DIR):
+        return []
+
+    return sorted(
+        file.replace(".log", "")
+        for file in os.listdir(LOGS_DIR)
+        if file.endswith(".log")
+    )
+
 # ─────────────────────────────────────────
 # PARSER
 # ─────────────────────────────────────────
@@ -142,7 +153,7 @@ SERVICE_HEALTH = load_health()
 @app.get("/get/services")
 def root():
     return {
-        "services": list(set(l["service"] for l in ALL_LOGS)),
+        "services": list_services(),
         "total_logs": len(ALL_LOGS)
     }
 

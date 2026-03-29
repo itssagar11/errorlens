@@ -14,7 +14,7 @@
   </div>
 
   <app-search-bar (analysisComplete)="onAnalysisComplete($event)"></app-search-bar>
-  <app-error-lens [errorLogs]="errorLogs"></app-error-lens>
+  <app-error-lens [errorLogs]="errorLogs" (statusSelected)="openStatusDetails($event)"></app-error-lens>
 
 </body>
 </html>

@@ -1,10 +1,26 @@
-2026-03-28T10:15:32.300+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.trade.TradeService : START txnId=TXN-100 endpoint=/api/trade/execute
+2026-03-25T09:00:11.402+05:30 INFO 19152 --- [nio-8080-exec-21] c.m.trade.TradeController : START txnId=TXN-100 endpoint=/api/trade/execute instrument=PAYMENT_AUTH
+2026-03-25T09:00:11.488+05:30 INFO 19152 --- [nio-8080-exec-21] c.m.trade.TradeService : Calling auth-service txnId=TXN-100 downstream=auth-service
+2026-03-25T09:00:11.701+05:30 INFO 19152 --- [nio-8080-exec-21] c.m.trade.TradeService : Trade success txnId=TXN-100 status=200
 
-2026-03-28T10:15:32.500+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.trade.TradeService : Calling auth-service txnId=TXN-100 downstream=auth-service
+2026-03-25T09:15:23.022+05:30 INFO 19152 --- [nio-8080-exec-22] c.m.trade.TradeController : START txnId=TXN-110 endpoint=/api/trade/settle instrument=PAYMENT_SETTLEMENT
+2026-03-25T09:15:23.210+05:30 INFO 19152 --- [nio-8080-exec-22] c.m.trade.TradeService : Trade settlement complete txnId=TXN-110 status=200
 
-2026-03-28T10:15:32.800+05:30 INFO 19152 --- [nio-8080-exec-4] c.m.trade.TradeService : Trade success txnId=TXN-100 status=200
+2026-03-27T16:02:14.125+05:30 INFO 19152 --- [nio-8080-exec-23] c.m.trade.TradeController : START txnId=TXN-500 endpoint=/api/trade/execute instrument=FX_BOOKING
+2026-03-27T16:02:14.388+05:30 WARN 19152 --- [nio-8080-exec-23] c.m.trade.RiskCheckService : Risk threshold exceeded txnId=TXN-500 endpoint=/api/trade/execute status=429
+com.ms.trade.exception.RiskThresholdExceededException: account breached intraday exposure limit
+	at com.ms.trade.risk.RiskCheckService.validate(RiskCheckService.java:64)
+2026-03-27T16:02:14.590+05:30 INFO 19152 --- [nio-8080-exec-23] c.m.trade.TradeController : END txnId=TXN-500 status=429 responseTime=465ms
 
-
-2026-03-28T11:00:01.000+05:30 ERROR 19152 --- [nio-8080-exec-5] c.m.trade.TradeService : Trade execution failed txnId=TXN-200 endpoint=/api/trade/execute status=500
+2026-03-28T10:15:32.510+05:30 INFO 19152 --- [nio-8080-exec-24] c.m.trade.TradeController : START txnId=TXN-200 endpoint=/api/trade/execute instrument=PAYMENT_AUTH
+2026-03-28T10:15:32.780+05:30 INFO 19152 --- [nio-8080-exec-24] c.m.trade.TradeService : Calling auth-service txnId=TXN-200 downstream=auth-service
+2026-03-28T10:15:33.020+05:30 ERROR 19152 --- [nio-8080-exec-24] c.m.trade.TradeService : Trade execution failed txnId=TXN-200 endpoint=/api/trade/execute status=500
 java.net.SocketTimeoutException: connection timed out
 	at com.ms.trade.client.HttpClient.execute(HttpClient.java:200)
+	at com.ms.trade.gateway.DownstreamGateway.post(DownstreamGateway.java:61)
+2026-03-28T10:15:33.222+05:30 INFO 19152 --- [nio-8080-exec-24] c.m.trade.TradeController : END txnId=TXN-200 status=500 responseTime=712ms
+
+2026-03-28T13:55:01.901+05:30 INFO 19152 --- [nio-8080-exec-25] c.m.trade.TradeController : START txnId=TXN-901 endpoint=/api/trade/settle instrument=PAYMENT_SETTLEMENT
+2026-03-28T13:55:02.170+05:30 ERROR 19152 --- [nio-8080-exec-25] c.m.trade.SettlementService : Kafka publish failed txnId=TXN-901 endpoint=/api/trade/settle status=503
+org.apache.kafka.common.errors.NotLeaderOrFollowerException: broker is not leader for topic trade-settlement
+	at org.apache.kafka.clients.producer.KafkaProducer.doSend(KafkaProducer.java:994)
+2026-03-28T13:55:02.331+05:30 INFO 19152 --- [nio-8080-exec-25] c.m.trade.TradeController : END txnId=TXN-901 status=503 responseTime=430ms

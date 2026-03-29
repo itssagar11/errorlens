@@ -1,0 +1,15 @@
+2026-03-25T09:00:11.905+05:30 INFO 19152 --- [nio-8080-exec-41] c.m.notification.NotificationController : START txnId=TXN-100 endpoint=/api/notifications/publish channel=EMAIL
+2026-03-25T09:00:12.020+05:30 INFO 19152 --- [nio-8080-exec-41] c.m.notification.NotificationService : Notification delivered txnId=TXN-100 status=200
+2026-03-25T09:00:12.060+05:30 INFO 19152 --- [nio-8080-exec-41] c.m.notification.NotificationController : END txnId=TXN-100 status=200 responseTime=155ms
+
+2026-03-28T13:05:44.210+05:30 INFO 19152 --- [nio-8080-exec-42] c.m.notification.NotificationController : START txnId=TXN-710 endpoint=/api/notifications/publish channel=SMS
+2026-03-28T13:05:44.431+05:30 ERROR 19152 --- [nio-8080-exec-42] c.m.notification.KafkaConsumer : Failed to publish notification event txnId=TXN-710 endpoint=/api/notifications/publish status=503
+org.apache.kafka.common.errors.TimeoutException: batch containing payment confirmation event expired in accumulator
+	at org.apache.kafka.clients.producer.internals.RecordAccumulator.abortExpiredBatches(RecordAccumulator.java:837)
+2026-03-28T13:05:44.570+05:30 INFO 19152 --- [nio-8080-exec-42] c.m.notification.NotificationController : END txnId=TXN-710 status=503 responseTime=360ms
+
+2026-03-28T15:10:01.015+05:30 INFO 19152 --- [nio-8080-exec-43] c.m.notification.NotificationController : START txnId=TXN-999 endpoint=/api/notifications/publish channel=PUSH
+2026-03-28T15:10:01.211+05:30 WARN 19152 --- [nio-8080-exec-43] c.m.notification.TemplateService : Notification template missing locale txnId=TXN-999 endpoint=/api/notifications/publish status=422
+com.ms.notification.exception.TemplateResolutionException: template PAYMENT_SUCCESS missing locale en_SG
+	at com.ms.notification.template.TemplateService.resolve(TemplateService.java:92)
+2026-03-28T15:10:01.390+05:30 INFO 19152 --- [nio-8080-exec-43] c.m.notification.NotificationController : END txnId=TXN-999 status=422 responseTime=375ms

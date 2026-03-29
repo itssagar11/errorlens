@@ -32,7 +32,7 @@
       </thead>
       <tbody class="divide-y divide-gray-50">
         @for (row of logs.data; track row.api) {
-          <tr app-table-row [row]="row" [maxErrors]="maxErrors"></tr>
+          <tr app-table-row [row]="row" [maxErrors]="maxErrors" (statusSelected)="onStatusSelected($event)"></tr>
         }
       </tbody>
     </table>

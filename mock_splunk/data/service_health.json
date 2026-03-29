@@ -4,5 +4,23 @@
     "status": "DOWN",
     "start_time": "2026-03-28T10:25:00",
     "end_time": "2026-03-28T10:45:00"
+  },
+  {
+    "service": "notification-service",
+    "status": "DEGRADED",
+    "start_time": "2026-03-28T13:00:00",
+    "end_time": "2026-03-28T13:20:00"
+  },
+  {
+    "service": "user-profile-service",
+    "status": "DOWN",
+    "start_time": "2026-03-27T18:05:00",
+    "end_time": "2026-03-27T18:22:00"
+  },
+  {
+    "service": "ledger-service",
+    "status": "DEGRADED",
+    "start_time": "2026-03-26T09:10:00",
+    "end_time": "2026-03-26T09:18:00"
   }
 ]
