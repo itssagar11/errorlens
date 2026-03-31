@@ -37,5 +37,27 @@ export interface RawTraceGroup {
 
 export interface RawTraceResponse {
   txn_id: string;
+  service?: string | null;
   raw_logs: RawTraceGroup[];
+}
+
+export interface AiAnalysis {
+  root_cause: string;
+  confidence: string;
+  reason: string;
+}
+
+export interface AiAnalysisResponse {
+  service: string;
+  endpoint: string;
+  txn_id: string;
+  signals: {
+    status: string | null;
+    exceptions: string[];
+    errors: string[];
+    warnings: string[];
+    keywords: string[];
+  };
+  important_logs: string[];
+  analysis: AiAnalysis;
 }

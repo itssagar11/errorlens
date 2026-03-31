@@ -1,9 +1,11 @@
-2026-03-27T18:10:12.410+05:30 INFO 19152 --- [nio-8080-exec-51] c.m.profile.ProfileController : START txnId=TXN-810 endpoint=/api/users/profile userId=USR-999
-2026-03-27T18:10:12.520+05:30 ERROR 19152 --- [nio-8080-exec-51] c.m.profile.ProfileService : User profile lookup failed txnId=TXN-810 endpoint=/api/users/profile status=404
+2026-03-27T18:10:12.410+05:30 INFO 19152 --- [nio-8080-exec-51] c.m.profile.ProfileController : START txnId=4323476282220 endpoint=/api/users/profile userId=USR-999
+2026-03-27T18:10:12.520+05:30 ERROR 19152 --- [nio-8080-exec-51] c.m.profile.ProfileService : User profile lookup failed txnId=4323476282220 endpoint=/api/users/profile status=404
 com.ms.profile.exception.ProfileNotFoundException: user profile for USR-999 not found in customer master
 	at com.ms.profile.service.ProfileService.fetch(ProfileService.java:47)
-2026-03-27T18:10:12.650+05:30 INFO 19152 --- [nio-8080-exec-51] c.m.profile.ProfileController : END txnId=TXN-810 status=404 responseTime=240ms
+2026-03-27T18:10:12.650+05:30 INFO 19152 --- [nio-8080-exec-51] c.m.profile.ProfileController : END txnId=4323476282220 status=404 responseTime=240ms
 
-2026-03-28T12:45:30.102+05:30 INFO 19152 --- [nio-8080-exec-52] c.m.profile.ProfileController : START txnId=TXN-820 endpoint=/api/users/profile userId=USR-820
-2026-03-28T12:45:30.221+05:30 INFO 19152 --- [nio-8080-exec-52] c.m.profile.ProfileService : Profile lookup success txnId=TXN-820 status=200
-2026-03-28T12:45:30.262+05:30 INFO 19152 --- [nio-8080-exec-52] c.m.profile.ProfileController : END txnId=TXN-820 status=200 responseTime=160ms
+2026-03-28T12:45:30.102+05:30 INFO 19152 --- [nio-8080-exec-52] c.m.profile.ProfileController : START txnId=4323477120102 endpoint=/api/users/profile userId=USR-820
+2026-03-28T12:45:30.221+05:30 INFO 19152 --- [nio-8080-exec-52] c.m.profile.ProfileService : Profile lookup success txnId=4323477120102 status=200
+2026-03-28T12:45:30.262+05:30 INFO 19152 --- [nio-8080-exec-52] c.m.profile.ProfileController : END txnId=4323477120102 status=200 responseTime=160ms
+
+

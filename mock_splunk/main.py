@@ -312,7 +312,7 @@ def details(service: str,
 # 🔥 TRACE (txnId → full flow)
 # ─────────────────────────────────────────
 @app.get("/splunk/raw-trace/{txn_id}")
-def get_raw_trace(txn_id: str):
+def get_raw_trace(txn_id: str, service: Optional[str] = None):
 
     result = []
 
@@ -320,7 +320,11 @@ def get_raw_trace(txn_id: str):
         if not file.endswith(".log"):
             continue
 
-        service = file.replace(".log", "")
+        current_service = file.replace(".log", "")
+
+        if service and current_service != service:
+            continue
+
         filepath = os.path.join(LOGS_DIR, file)
 
         with open(filepath, "r") as f:
@@ -348,12 +352,13 @@ def get_raw_trace(txn_id: str):
 
         if collected:
             result.append({
-                "service": service,
+                "service": current_service,
                 "logs": collected
             })
 
     return {
         "txn_id": txn_id,
+        "service": service,
         "raw_logs": result
     }
 

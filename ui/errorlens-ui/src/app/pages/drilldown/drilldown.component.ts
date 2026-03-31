@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SplunkService } from '../../services/splunk.service';
-import { ErrorDetailsResponse, RawTraceResponse } from '../../model/error-logs.model';
+import { AiAnalysisResponse, ErrorDetailsResponse, RawTraceResponse } from '../../model/error-logs.model';
 
 @Component({
   selector: 'app-drilldown',
@@ -19,11 +19,14 @@ export class DrilldownComponent implements OnInit {
 
   details: ErrorDetailsResponse | null = null;
   trace: RawTraceResponse | null = null;
+  aiAnalysis: AiAnalysisResponse | null = null;
 
   isLoadingDetails = false;
   isLoadingTrace = false;
+  isLoadingAnalysis = false;
   detailsError = '';
   traceError = '';
+  analysisError = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -43,10 +46,14 @@ export class DrilldownComponent implements OnInit {
       this.loadDetails();
 
       if (this.selectedTxnId) {
+        this.aiAnalysis = null;
+        this.analysisError = '';
         this.loadTrace(this.selectedTxnId);
       } else {
         this.trace = null;
+        this.aiAnalysis = null;
         this.traceError = '';
+        this.analysisError = '';
       }
     });
   }
@@ -78,15 +85,43 @@ export class DrilldownComponent implements OnInit {
     this.isLoadingTrace = true;
     this.traceError = '';
 
-    this.splunkService.getRawTrace(txnId).subscribe({
+    this.splunkService.getRawTrace(txnId, this.service || undefined).subscribe({
       next: (data) => {
         this.trace = data;
+        this.traceError = data.raw_logs.length ? '' : 'No raw logs found for this transaction.';
         this.isLoadingTrace = false;
       },
       error: () => {
         this.trace = null;
         this.traceError = 'Unable to load raw logs for this transaction.';
         this.isLoadingTrace = false;
+      }
+    });
+  }
+
+  analyseSelectedTxn(): void {
+    if (!this.selectedTxnId) {
+      return;
+    }
+
+    this.isLoadingAnalysis = true;
+    this.analysisError = '';
+    this.aiAnalysis = null;
+
+    this.splunkService.analyseTraceWithAI(
+      this.service,
+      this.endpoint,
+      this.selectedTxnId,
+      this.trace ?? undefined
+    ).subscribe({
+      next: (data) => {
+        this.aiAnalysis = data;
+        this.isLoadingAnalysis = false;
+      },
+      error: () => {
+        this.aiAnalysis = null;
+        this.analysisError = 'Unable to analyse this transaction with AI.';
+        this.isLoadingAnalysis = false;
       }
     });
   }

@@ -1,23 +1,25 @@
-2026-03-25T09:00:11.252+05:30 INFO 19152 --- [nio-8080-exec-31] c.m.auth.AuthController : START txnId=TXN-100 endpoint=/api/auth/validate userId=USR-101
-2026-03-25T09:00:11.305+05:30 INFO 19152 --- [nio-8080-exec-31] c.m.auth.AuthService : Auth success txnId=TXN-100 userId=USR-101 status=200
-2026-03-25T09:00:11.322+05:30 INFO 19152 --- [nio-8080-exec-31] c.m.auth.AuthController : END txnId=TXN-100 status=200 responseTime=70ms
+2026-03-25T09:00:11.252+05:30 INFO 19152 --- [nio-8080-exec-31] c.m.auth.AuthController : START txnId=4323473284101 endpoint=/api/auth/validate userId=USR-101
+2026-03-25T09:00:11.305+05:30 INFO 19152 --- [nio-8080-exec-31] c.m.auth.AuthService : Auth success txnId=4323473284101 userId=USR-101 status=200
+2026-03-25T09:00:11.322+05:30 INFO 19152 --- [nio-8080-exec-31] c.m.auth.AuthController : END txnId=4323473284101 status=200 responseTime=70ms
 
-2026-03-25T11:30:44.321+05:30 INFO 19152 --- [nio-8080-exec-32] c.m.auth.AuthController : START txnId=TXN-120 endpoint=/api/auth/login userId=USR-120
-2026-03-25T11:30:44.391+05:30 WARN 19152 --- [nio-8080-exec-32] c.m.auth.RateLimitFilter : Login rate limit exceeded txnId=TXN-120 endpoint=/api/auth/login status=429
+2026-03-25T11:30:44.321+05:30 INFO 19152 --- [nio-8080-exec-32] c.m.auth.AuthController : START txnId=4323473388421 endpoint=/api/auth/login userId=USR-120
+2026-03-25T11:30:44.391+05:30 WARN 19152 --- [nio-8080-exec-32] c.m.auth.RateLimitFilter : Login rate limit exceeded txnId=4323473388421 endpoint=/api/auth/login status=429
 com.ms.auth.exception.TooManyRequestsException: too many login attempts for source IP 10.10.3.45
 	at com.ms.auth.security.RateLimitFilter.doFilterInternal(RateLimitFilter.java:88)
-2026-03-25T11:30:44.501+05:30 INFO 19152 --- [nio-8080-exec-32] c.m.auth.AuthController : END txnId=TXN-120 status=429 responseTime=180ms
+2026-03-25T11:30:44.501+05:30 INFO 19152 --- [nio-8080-exec-32] c.m.auth.AuthController : END txnId=4323473388421 status=429 responseTime=180ms
 
-2026-03-26T08:45:09.290+05:30 ERROR 19152 --- [nio-8080-exec-33] c.m.auth.AuthController : Invalid request txnId=TXN-300 endpoint=/api/auth/login status=400
+2026-03-26T08:45:09.290+05:30 ERROR 19152 --- [nio-8080-exec-33] c.m.auth.AuthController : Invalid request txnId=4323474289111 endpoint=/api/auth/login status=400
 com.ms.auth.exception.BadCredentialsFormatException: username or password field missing
 	at com.ms.auth.controller.AuthController.login(AuthController.java:51)
 
-2026-03-28T10:15:32.860+05:30 INFO 19152 --- [nio-8080-exec-34] c.m.auth.AuthController : START txnId=TXN-200 endpoint=/api/auth/validate userId=USR-201
-2026-03-28T10:15:33.040+05:30 ERROR 19152 --- [nio-8080-exec-34] c.m.auth.TokenService : JWT validation failed txnId=TXN-200 endpoint=/api/auth/validate status=401
+2026-03-28T10:15:32.860+05:30 INFO 19152 --- [nio-8080-exec-34] c.m.auth.AuthController : START txnId=4323477282123 endpoint=/api/auth/validate userId=USR-201
+2026-03-28T10:15:33.040+05:30 ERROR 19152 --- [nio-8080-exec-34] c.m.auth.TokenService : JWT validation failed txnId=4323477282123 endpoint=/api/auth/validate status=401
 io.jsonwebtoken.ExpiredJwtException: JWT expired at 2026-03-28T10:14:59+05:30
 	at io.jsonwebtoken.impl.DefaultJwtParser.parse(DefaultJwtParser.java:181)
-2026-03-28T10:15:33.180+05:30 INFO 19152 --- [nio-8080-exec-34] c.m.auth.AuthController : END txnId=TXN-200 status=401 responseTime=320ms
+2026-03-28T10:15:33.180+05:30 INFO 19152 --- [nio-8080-exec-34] c.m.auth.AuthController : END txnId=4323477282123 status=401 responseTime=320ms
 
-2026-03-28T15:01:09.500+05:30 INFO 19152 --- [nio-8080-exec-35] c.m.auth.AuthController : START txnId=TXN-999 endpoint=/api/auth/validate userId=USR-777
-2026-03-28T15:01:09.622+05:30 INFO 19152 --- [nio-8080-exec-35] c.m.auth.AuthService : Auth success txnId=TXN-999 userId=USR-777 status=200
-2026-03-28T15:01:09.655+05:30 INFO 19152 --- [nio-8080-exec-35] c.m.auth.AuthController : END txnId=TXN-999 status=200 responseTime=155ms
+2026-03-28T15:01:09.500+05:30 INFO 19152 --- [nio-8080-exec-35] c.m.auth.AuthController : START txnId=4323477989500 endpoint=/api/auth/validate userId=USR-777
+2026-03-28T15:01:09.622+05:30 INFO 19152 --- [nio-8080-exec-35] c.m.auth.AuthService : Auth success txnId=4323477989500 userId=USR-777 status=200
+2026-03-28T15:01:09.655+05:30 INFO 19152 --- [nio-8080-exec-35] c.m.auth.AuthController : END txnId=4323477989500 status=200 responseTime=155ms
+
+
